@@ -1,0 +1,2 @@
+/Users/giorno/dev/projects/ascii_chess/deps/slog
+/Users/giorno/dev/projects/slog
