@@ -32,7 +32,8 @@ enum figures {
 	KNIGHT,
 	BISHOP,
 	QUEEN,
-	KING
+	KING,
+	UNKNOWN
 };
 
 // do not change thoses
@@ -100,7 +101,7 @@ int nottoint (char const *n) {
 				retval += KNIGHT<<6;
 				break;
 			default:
-				retval += 99<<6;
+				retval += UNKNOWN<<6;
 		}
 
 		if ('a' <= n[1] && n[1] <= 'h') {
