@@ -15,7 +15,7 @@ typedef char board[8][8];
 
 typedef struct {
 	int x, y;
-	figure *fp;
+	const figure *fp;
 } chessobj;
 
 
@@ -40,43 +40,43 @@ enum figures {
 };
 
 // do not change thoses
-figure pawn = {
+const figure pawn = {
 	' ',' ',' ',' ',' ',' ',' ',
 	' ',' ',' ','@',' ',' ',' ',
 	' ',' ','_','^','_',' ',' '
 };
 
-figure rook = {
+const figure rook = {
 	' ','.',' ','#',' ','.',' ',
 	' ','-','-','-','-','-',' ',
 	' ',' ','#','#','#',' ',' '
 };
 
-figure knight = {
+const figure knight = {
 	' ',' ',' ','^','^',' ',' ',
 	' ',' ','/',' ','|','\\',' ',
 	' ',' ','_','_','^','_',' '
 };
 
-figure bishop = {
+const figure bishop = {
 	' ',' ',' ','.',' ',' ',' ',
 	' ',' ','<','#','>',' ',' ',
 	' ',' ','_','^','_',' ',' '
 };
 
-figure queen = {
+const figure queen = {
 	'.',' ','.',' ','.',' ','.',
 	'\\',' ','\\',' ','/',' ','/',
 	' ','_','_','^','_','_',' '
 };
 
-figure king = {
+const figure king = {
 	' ',' ',' ','+',' ',' ',' ',
 	' ',' ','@',' ','@',' ',' ',
 	' ',' ','_','^','_',' ',' '
 };
 
-figure empty = {
+const figure empty = {
 	' ',' ',' ',' ',' ',' ',' ',
 	' ',' ',' ',' ',' ',' ',' ',
 	' ',' ',' ',' ',' ',' ',' '
@@ -165,7 +165,7 @@ chessobj createobj (int code) {
 			retval.fp = &rook;
 			break;
 		case UNKNOWN:
-			SLOG_ERROR("createobj", "wrong figure type");
+			SLOG_ERROR ("createobj", "wrong figure type");
 	}
 	retval.x = code%8;
 	retval.y = (code>>3)%8;
@@ -181,9 +181,9 @@ void mvaddfig (const char *n, int color) {
 		case 2: // 'x' taken
 			// cleaning future place
 			if ((to.x + to.y)%2 == 0) {
-				attron(COLOR_PAIR(BLACK_ON_BLACK));
+				attron (COLOR_PAIR (BLACK_ON_BLACK));
 			} else {
-				attron(COLOR_PAIR(WHITE_ON_WHITE));
+				attron (COLOR_PAIR (WHITE_ON_WHITE));
 			}
 
 			for (int i = 0; i < sizeof(figure); i++) {
@@ -191,17 +191,17 @@ void mvaddfig (const char *n, int color) {
 			}
 
 			if ((to.x + to.y)%2 == 0) {
-				attroff(COLOR_PAIR(BLACK_ON_BLACK));
+				attroff (COLOR_PAIR (BLACK_ON_BLACK));
 			} else {
-				attroff(COLOR_PAIR(WHITE_ON_WHITE));
+				attroff (COLOR_PAIR (WHITE_ON_WHITE));
 			}
 
 		case 1: // '-' moved
 			// cleaning old place
 			if ((from.x + from.y)%2 == 0) {
-				attron(COLOR_PAIR(BLACK_ON_BLACK));
+				attron (COLOR_PAIR (BLACK_ON_BLACK));
 			} else {
-				attron(COLOR_PAIR(WHITE_ON_WHITE));
+				attron (COLOR_PAIR (WHITE_ON_WHITE));
 			}
 
 			for (int i = 0; i < sizeof(figure); i++) {
@@ -209,23 +209,23 @@ void mvaddfig (const char *n, int color) {
 			}
 
 			if ((from.x + from.y)%2 == 0) {
-				attroff(COLOR_PAIR(BLACK_ON_BLACK));
+				attroff (COLOR_PAIR (BLACK_ON_BLACK));
 			} else {
-				attroff(COLOR_PAIR(WHITE_ON_WHITE));
+				attroff (COLOR_PAIR (WHITE_ON_WHITE));
 			}
 
 			// placing figure on it's place
 			if ((to.x + to.y)%2 == 0) {
 				if (COLOR_RED == color) {
-					attron(COLOR_PAIR(RED_ON_BLACK));
+					attron (COLOR_PAIR (RED_ON_BLACK));
 				} else if (COLOR_BLUE == color) {
-					attron(COLOR_PAIR(BLUE_ON_BLACK));
+					attron(COLOR_PAIR (BLUE_ON_BLACK));
 				}
 			} else {
 				if (COLOR_RED == color) {
-					attron(COLOR_PAIR(RED_ON_WHITE));
+					attron (COLOR_PAIR (RED_ON_WHITE));
 				} else if (COLOR_BLUE == color) {
-					attron(COLOR_PAIR(BLUE_ON_WHITE));
+					attron (COLOR_PAIR (BLUE_ON_WHITE));
 				}
 			}
 
@@ -251,15 +251,15 @@ void mvaddfig (const char *n, int color) {
 
 	if ((from.x + from.y)%2 == 0) {
 		if (COLOR_RED == color) {
-			attron(COLOR_PAIR(RED_ON_BLACK));
+			attron (COLOR_PAIR(RED_ON_BLACK));
 		} else if (COLOR_BLUE == color) {
-			attron(COLOR_PAIR(BLUE_ON_BLACK));
+			attron (COLOR_PAIR(BLUE_ON_BLACK));
 		}
 	} else {
 		if (COLOR_RED == color) {
-			attron(COLOR_PAIR(RED_ON_WHITE));
+			attron (COLOR_PAIR(RED_ON_WHITE));
 		} else if (COLOR_BLUE == color) {
-			attron(COLOR_PAIR(BLUE_ON_WHITE));
+			attron (COLOR_PAIR(BLUE_ON_WHITE));
 		}
 	}
 
@@ -269,22 +269,22 @@ void mvaddfig (const char *n, int color) {
 
 	if ((from.x + from.y)%2 == 0) {
 		if (COLOR_RED == color) {
-			attroff(COLOR_PAIR(RED_ON_BLACK));
+			attroff (COLOR_PAIR(RED_ON_BLACK));
 		} else if (COLOR_BLUE == color) {
-			attroff(COLOR_PAIR(BLUE_ON_BLACK));
+			attroff (COLOR_PAIR(BLUE_ON_BLACK));
 		}
 	} else {
 		if (COLOR_RED == color) {
-			attroff(COLOR_PAIR(RED_ON_WHITE));
+			attroff (COLOR_PAIR(RED_ON_WHITE));
 		} else if (COLOR_BLUE == color) {
-			attroff(COLOR_PAIR(BLUE_ON_WHITE));
+			attroff (COLOR_PAIR(BLUE_ON_WHITE));
 		}
 	}
 }
 
-bool processcmd (const char buf[17], bool quite, int turn) {
+bool processcmd (const char buf[17], int turn) {
 	if (!compaire_commands (buf, (const char *)EXIT_CMD)) {
-		quite = true;
+		return true;
 	} else {
 		if (turn%2 == 0) {
 			mvaddfig ((const char *)buf, COLOR_RED);
@@ -292,7 +292,7 @@ bool processcmd (const char buf[17], bool quite, int turn) {
 			mvaddfig ((const char *)buf, COLOR_BLUE);
 		}
 	}
-	return quite;
+	return false;
 }
 
 int main () {
@@ -301,6 +301,17 @@ int main () {
 	int len = 16; // 16 is not an error
 	int pos = 0;
 	int turn = 0;
+	char board[8][8] = {
+		'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R',
+		'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P',
+		' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+		' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+		' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+		' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+		'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P',
+		'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R',
+	};
+
 
 	{ // initiation
 		initscr ();
@@ -414,16 +425,21 @@ int main () {
 					break;
 				}
 				pos--;
-				mvaddch(CURSOR_START_Y, CURSOR_START_X+pos, ' ');
+				mvaddch (CURSOR_START_Y, CURSOR_START_X+pos, ' ');
 				break;
 			case '\n':
 				pos = 0;
+				for (int i = 3; i <= CURSOR_START_Y; i++) {
+					char line[19];
+					mvinnstr (i, CURSOR_START_X, line, 18);
+					mvprintw (i-1, CURSOR_START_X, "%18s", line);
+				}
 				mvprintw(CURSOR_START_Y, CURSOR_START_X, "                         ");
-				quite = processcmd (buf, quite, turn++);
+				quite = processcmd (buf, turn++);
 				break;
 			default:
 				if (pos != len) {
-					mvaddch(CURSOR_START_Y, CURSOR_START_X+pos, buf[pos]);
+					mvaddch (CURSOR_START_Y, CURSOR_START_X+pos, buf[pos]);
 					pos++;
 				}
 		}
